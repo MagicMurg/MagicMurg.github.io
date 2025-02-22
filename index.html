@@ -7,64 +7,16 @@
     <link href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/pulse/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-dark">
-    <div class="d-flex justify-content-center align-items-center vh-100">
-        <h1 class="col-6">cOOkeville</h1>
+    <div class="d-flex justify-content-center align-items-center vh-100 color:white">
+        <div class="card">
+            <h1 class="text-center mb-0 text-primary">Cookeville</h1>
+        </div>
       
       
     </div>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        // Vanilla JS w/ query selector
-        document.querySelector("#btnLogin").addEventListener("click",(e) => {
-            //alert("Test");
-            const regEmail = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
-            let strUsername = document.querySelector("#txtUsername").value
-            const strPassword = $('#txtPassword').val()
-            strUsername = strUsername.toLowerCase()
-            let blnError = false
-            let strMessage = ''
-
-            if(!regEmail.test(strUsername)){
-                blnError = true
-                strMessage += '<p  class="mb-0 mt-0">Username must be an email address</p>'
-            }
-
-            // if(strUsername.trim().length < 6 || !strUsername.includes('@') || !strUsername.includes('.')){
-            //     blnError = true
-            //     strMessage += '<p  class="mb-0 mt-0">Username must be an email address</p>'
-            // }
-            
-            if(strPassword.length < 1){
-                blnError = true
-                strMessage += '<p class="mb-0 mt-0">Password Cannot Be Blank</p>'
-            }
-
-            Swal.fire({
-                title: "Oh no, you have an error!",
-                html: strMessage,
-                icon: "error"
-            });
-        })
-
-        // // Vanilla JS w/ getELementByID
-        // document.getElementById("btnLogin").addEventListener("click",(e) => {
-        //     alert("Test");
-        // })
-
-        // jQuery Version
-        // $("#btnLogin").on('click',function(){
-        //     const strUsername = $('#txtUsername').val()
-        //     const strPassword = $('#txtPassword').val()
-        //     console.log(strPassword)
-        // })
-
-        // jQuery handler for btnSwapLogin
-        $('#btnSwapLogin').on('click',function(){
-            $('#frmLogin').slideUp('slow')
-            $('#frmRegister').slideDown('fast')
-        })
-    </script>
+    
 </body>
-</html>Hello World
+
