@@ -91,7 +91,7 @@
             document.querySelector('#txttemp').innerHTML = objData.current.temperature_2m + objData.current_units.temperature_2m
             document.querySelector('#txthum').innerHTML = objData.current.relative_humidity_2m + objData.current_units.relative_humidity_2m;
             status=objData.current.weather_code;
-            status=56;
+            
             if (status == 0) {
     document.querySelector('#txtCon').innerHTML = "Clear sky";
             if(status == 0){
