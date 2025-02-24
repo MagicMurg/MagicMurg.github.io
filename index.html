@@ -5,32 +5,233 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Murg Meterorology</title>
     <link href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/pulse/bootstrap.min.css" rel="stylesheet">
+    
+        
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        
+        <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+        <link rel="apple-touch-icon" href="images/apple-touch-icon-iphone60x60.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="images/apple-touchicon-ipad-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touchicon-iphone-retina-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="images/apple-touchicon-ipad-retina-152x152.png">
+        
+        
+       
 </head>
+
+
 <body class="bg-dark">
     <center>
         <h1 class="text-secondary"> Mgaic Murg Weather APP</h1>
     </center> 
-    <div class="d-flex justify-content-center align-items-center vh-100 color:white">
+    <center>
+    <div class="d-flex justify-content-left align-items-left vh-20 color:white col-6 ">
         <div class="card col-6">
             
-            <h1 class="text-center mb-0 text-primary">CookevilleCookevilleCookevilleCookevilleCookevilleCookevilleCookevilleCookevilleCookevilleCookevilleCookevilleCookevilleCookevilleCookevilleCookevilleCookevilleCookevilleCookevilleCookeville</h1>
+            <div class="card-body col-12">
+                <div class="d-flex justify-content-center">
+                    <img src="images/pinpoint.jpg" alt="Abstract People Image" style="max-width: 80%;">
+                </div>
+                <h1 class="text-center mb-0 text-primary">Cookeville</h1>
+                <!-- <form id="frmDogs">
+                    <select id="selDogs" aria-label="Select a Dog Breed" class="form-control">
+            
+                    </select>
+                </form> -->
+               
+            </div>
+
+           
         </div>
 
         <div class="card col-6">
-            <div class="card-body col-6">
-                <h1 class="text-center mb-0 text-primary">Current Conditions</h1>
+            <div class="card-body col-12">
+                <h1 class="text-center mb-0 text-primary ">Current Conditions</h1>
+                <div class="d-flex justify-content-center">
+                    <img src="images/cloudy.png" alt="Abstract People Image" id='imgStaus' style="max-width: 40%;">
+                </div>
+
+                <h2 class="text-center text-primary mb-4"id="txtCon">Cloudy</h2>
             </div>
-            <div class="card-body col-6">
-                <h1 class="text-center mb-0 text-primary">Humidity and whatever</h1>
+            <div class="card-body col-12">
+                <div class="d-flex justify-content-center align-items-center">
+       
+                    <img src="images/thermometer.png" alt="Abstract People Image" style="max-width: 20%;">
+                
+                    <h1 class="text-primary" id="txttemp"></h1>
+
+                    <img src="images/humidity.png" alt="Abstract People Image" style="max-width: 20%;">
+
+                    <h1 class="text-primary" id = "txthum">humidity</h2>
+                </div>
+             
+               
             </div>
         </div>
-
-    
-      
+        
     </div>
+    </center>
+  
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
-</body>
 
+
+    <script>
+        let status = 0;
+        
+      fetch('https://api.open-meteo.com/v1/forecast?latitude=36.162839&longitude=-85.501642&current=temperature_2m,relative_humidity_2m,weather_code&hourly=temperature_2m&temperature_unit=fahrenheit')
+     .then(objResponse => objResponse.json())
+     .then(objData => {
+            console.log(objData);
+            console.log(objData.hourly.temperature_2m[0]);
+            document.querySelector('#txttemp').innerHTML = objData.current.temperature_2m + objData.current_units.temperature_2m
+            document.querySelector('#txthum').innerHTML = objData.current.relative_humidity_2m + objData.current_units.relative_humidity_2m;
+            status=objData.current.weather_code;
+            status=56;
+            if (status == 0) {
+    document.querySelector('#txtCon').innerHTML = "Clear sky";
+            if(status == 0){
+                document.querySelector('#txtCon').innerHTML = "Clear sky";
+                document.querySelector('#imgStaus').src = "images/cartoon-sun-vector.jpg";
+                document.querySelector('#imgStaus').alt = "Clear sky image";
+            }
+            } else if (status == 1) {
+                document.querySelector('#txtCon').innerHTML = "Mainly clear";
+                document.querySelector('#imgStaus').src = "images/cartoon-sun-vector.jpg";
+                document.querySelector('#imgStaus').alt = "Clear sky image";
+            } else if (status == 2) {
+                document.querySelector('#txtCon').innerHTML = "Partly cloudy";
+                document.querySelector('#imgStaus').src = "images/overcast.png";
+                document.querySelector('#imgStaus').alt = "Clear sky image";
+            } else if (status == 3) {
+                document.querySelector('#txtCon').innerHTML = "Overcast";
+                document.querySelector('#imgStaus').src = "images/overcast.png";
+                document.querySelector('#imgStaus').alt = "Clear sky image";
+            } else if (status == 45){
+                document.querySelector('#txtCon').innerHTML = "Fog ";
+                document.querySelector('#imgStaus').src = "images/FOG.png";
+                document.querySelector('#imgStaus').alt = "Clear sky image";
+            } else if (status == 48){
+                document.querySelector('#txtCon').innerHTML = "depositing rime fog";
+                document.querySelector('#imgStaus').src = "images/FOG.png";
+                document.querySelector('#imgStaus').alt = "Clear sky image";
+            } else if (status == 51) {
+                document.querySelector('#txtCon').innerHTML = "Drizzle: Light intensity";
+                document.querySelector('#imgStaus').src = "images/RAIN.png";
+                document.querySelector('#imgStaus').alt = "Clear sky image";
+            } else if (status == 53) {
+                document.querySelector('#txtCon').innerHTML = "Drizzle: Moderate intensity";
+                document.querySelector('#imgStaus').src = "images/RAIN.png";
+                document.querySelector('#imgStaus').alt = "Clear sky image";
+            } else if (status == 55) {
+                document.querySelector('#txtCon').innerHTML = "Drizzle: Dense intensity";
+                document.querySelector('#imgStaus').src = "images/RAIN.png";
+                document.querySelector('#imgStaus').alt = "Clear sky image";
+            } else if (status == 56) {
+                document.querySelector('#txtCon').innerHTML = "Freezing Drizzle: Light intensity";
+                document.querySelector('#imgStaus').src = "images/frain.png";
+                document.querySelector('#imgStaus').alt = "Clear sky image";
+            } else if (status == 57) {
+                document.querySelector('#txtCon').innerHTML = "Freezing Drizzle: Dense intensity";
+                document.querySelector('#imgStaus').src = "images/frain.png";
+                document.querySelector('#imgStaus').alt = "Clear sky image";
+            } else if (status == 61) {
+                document.querySelector('#txtCon').innerHTML = "Rain: Slight intensity";
+                document.querySelector('#imgStaus').src = "images/RAIN.png";
+                document.querySelector('#imgStaus').alt = "Clear sky image";
+            } else if (status == 63) {
+                document.querySelector('#txtCon').innerHTML = "Rain: Moderate intensity";
+                document.querySelector('#imgStaus').src = "images/RAIN.png";
+                document.querySelector('#imgStaus').alt = "Clear sky image";
+            } else if (status == 65) {
+                document.querySelector('#txtCon').innerHTML = "Rain: Heavy intensity";
+                document.querySelector('#imgStaus').src = "images/RAIN.png";
+                document.querySelector('#imgStaus').alt = "Clear sky image";
+            } else if (status == 66) {
+                document.querySelector('#txtCon').innerHTML = "Freezing Rain: Light intensity";
+                document.querySelector('#imgStaus').src = "images/frain.png";
+                document.querySelector('#imgStaus').alt = "Clear sky image";
+            } else if (status == 67) {
+                document.querySelector('#txtCon').innerHTML = "Freezing Rain: Heavy intensity";
+                document.querySelector('#imgStaus').src = "images/frain.png";
+                document.querySelector('#imgStaus').alt = "Clear sky image";
+            } else if (status == 71) {
+                document.querySelector('#txtCon').innerHTML = "Snowfall: Slight intensity";
+                document.querySelector('#imgStaus').src = "images/snow.png";
+                document.querySelector('#imgStaus').alt = "Clear sky image";
+            } else if (status == 73) {
+                document.querySelector('#txtCon').innerHTML = "Snowfall: Moderate intensity";
+                document.querySelector('#imgStaus').src = "images/snow.png";
+                document.querySelector('#imgStaus').alt = "Clear sky image";
+            } else if (status == 75) {
+                document.querySelector('#txtCon').innerHTML = "Snowfall: Heavy intensity";
+                document.querySelector('#imgStaus').src = "images/snow.png";
+                document.querySelector('#imgStaus').alt = "Clear sky image";
+            } else if (status == 77) {
+                document.querySelector('#txtCon').innerHTML = "Snow grains";
+                document.querySelector('#imgStaus').src = "images/snow.png";
+                document.querySelector('#imgStaus').alt = "Clear sky image";
+            } else if (status == 80) {
+                document.querySelector('#txtCon').innerHTML = "Rain showers: Slight intensity";
+                document.querySelector('#imgStaus').src = "images/RAIN.png";
+                document.querySelector('#imgStaus').alt = "Clear sky image";
+            } else if (status == 81) {
+                document.querySelector('#txtCon').innerHTML = "Rain showers: Moderate intensity";
+                document.querySelector('#imgStaus').src = "images/RAIN.png";
+                document.querySelector('#imgStaus').alt = "Clear sky image";
+            } else if (status == 82) {
+                document.querySelector('#txtCon').innerHTML = "Rain showers: Violent intensity";
+                document.querySelector('#imgStaus').src = "images/RAIN.png";
+                document.querySelector('#imgStaus').alt = "Clear sky image";
+            } else if (status == 85) {
+                document.querySelector('#txtCon').innerHTML = "Snow showers: Slight intensity";
+                document.querySelector('#imgStaus').src = "images/snow.png";
+                document.querySelector('#imgStaus').alt = "Clear sky image";
+            } else if (status == 86) {
+                document.querySelector('#txtCon').innerHTML = "Snow showers: Heavy intensity";
+                document.querySelector('#imgStaus').src = "images/snow.png";
+                document.querySelector('#imgStaus').alt = "Clear sky image";
+            } else if (status == 95) {
+                document.querySelector('#txtCon').innerHTML = "Thunderstorm: Slight or moderate";
+                document.querySelector('#imgStaus').src = "images/thunder.png";
+                document.querySelector('#imgStaus').alt = "Clear sky image";
+            } else if (status == 96 || status == 99) {
+                document.querySelector('#txtCon').innerHTML = "Thunderstorm with slight and heavy hail";
+                document.querySelector('#imgStaus').src = "images/thunder.png";
+                document.querySelector('#imgStaus').alt = "Clear sky image";
+            } else {
+                document.querySelector('#txtCon').innerHTML = "Unknown weather status";
+            }
+
+    })
+    // $.getJSON('https://swollenhippo.com/dogs.php?APIKey=75Barking212!',function(objData){
+            
+
+    //         let arrDogs = [];
+    //         let strHTML = '<ul>'
+    //         //Older, more declarative way of performing a forEach
+    //         objData.forEach(function(objDog){
+    //             arrDogs.push(objDog.Breed)
+    //             //$('#divDogs').append(`<p>${objDog.Breed}</p>`)
+    //             strHTML += `<li>${objDog.Breed}</li>`
+    //         })
+    //         strHTML += '</ul>'
+    //         // $('#divDogs').append(strHTML)
+    //         objData.forEach(function(objDog){
+    //             $('#selDogs').append(`<option value="${objDog.Breed}">${objDog.Breed}</option>`)
+                
+
+    //         })
+            
+    //         $('#frmDogs').append('<button class="btn btn-primary" id="btnTest" type="button">Test Me</button>')
+    //     })
+
+            
+        
+    </script>
+ 
+</body>
