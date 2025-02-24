@@ -25,7 +25,7 @@
 
 <body class="bg-dark">
     <center>
-        <h1 class="text-secondary"> Mgaic Murg Weather APP</h1>
+        <h1 class="text-secondary"> Magic Murg Weather APP</h1>
     </center> 
     <center>
     <div class="d-flex justify-content-left align-items-left vh-50 color:white col-12 col-md-10 col-lg-9 ">
@@ -97,10 +97,11 @@
              .then(objData => {
                 console.log(objData.results);
            
-            let location = objData.results[0].address_components[2].long_name;
-            let state = objData.results[0].address_components[4].short_name;
-            let country = objData.results[0].address_components[5].short_name;
-            document.querySelector('#txtLoc').innerHTML = location +", "+ state+", "+ country;
+          
+            let location = objData.results[0].plus_code.compound_code;
+            location = location.slice(8);
+            // console.log(strTest);
+            document.querySelector('#txtLoc').innerHTML = location ;
             
             })
 
