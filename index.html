@@ -35,7 +35,7 @@
                 <div class="d-flex justify-content-center">
                     <img src="images/pinpoint.jpg" alt="Abstract People Image" style="max-width: 80%;" class="mt-6">
                 </div>
-                <h1 class="text-center mb-0 text-primary " style="font-size:5vw ;">Cookeville</h1>
+                <h1 class="text-center mb-0 text-primary " style="font-size:5vw ;" id ="txtLoc">Cookeville</h1>
                 <!-- <form id="frmDogs">
                     <select id="selDogs" aria-label="Select a Dog Breed" class="form-control">
             
@@ -82,8 +82,32 @@
 
     <script>
         let status = 0;
+        let latitude = 36.1627;
+        let longitude = -86.7816;
         
-      fetch('https://api.open-meteo.com/v1/forecast?latitude=36.162839&longitude=-85.501642&current=temperature_2m,relative_humidity_2m,weather_code&hourly=temperature_2m&temperature_unit=fahrenheit')
+
+        
+
+        navigator.geolocation.getCurrentPosition(function(position){
+            latitude=(position.coords.latitude)
+            longitude=(position.coords.longitude)
+        })
+        
+        fetch('https://maps.googleapis.com/maps/api/geocode/json?latlng='+latitude+','+longitude+'&key=AIzaSyAOPDJc__khO06ukuphJjuIi1DGpLIHlXc')
+     .then(objResponse => objResponse.json())   
+     .then(objData => {
+            console.log(objData);
+            let location = objData.results[0].address_components[3].long_name;
+            let state = objData.results[0].address_components[5].short_name;
+            let country = objData.results[0].address_components[6].short_name;
+            document.querySelector('#txtLoc').innerHTML = location +", "+ state+", "+ country;
+            
+        })
+       
+
+         
+        
+    fetch('https://api.open-meteo.com/v1/forecast?latitude='+latitude+'&longitude='+longitude+'&current=temperature_2m,relative_humidity_2m,weather_code&hourly=temperature_2m&temperature_unit=fahrenheit')
      .then(objResponse => objResponse.json())
      .then(objData => {
             console.log(objData);
@@ -93,7 +117,8 @@
             status=objData.current.weather_code;
             
             if (status == 0) {
-    document.querySelector('#txtCon').innerHTML = "Clear sky";
+                document.querySelector('#txtCon').innerHTML = "Clear sky";
+                
             if(status == 0){
                 document.querySelector('#txtCon').innerHTML = "Clear sky";
                 document.querySelector('#imgStaus').src = "images/cartoon-sun-vector.jpg";
