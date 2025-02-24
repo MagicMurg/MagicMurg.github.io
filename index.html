@@ -82,35 +82,32 @@
 
     <script>
         let status = 0;
-        let latitude = 36.1627;
-        let longitude = -86.7816;
-        
+      
 
         
 
         navigator.geolocation.getCurrentPosition(function(position){
-            latitude=(position.coords.latitude)
-            longitude=(position.coords.longitude)
-        })
-        
-        fetch('https://maps.googleapis.com/maps/api/geocode/json?latlng='+latitude+','+longitude+'&key=AIzaSyAOPDJc__khO06ukuphJjuIi1DGpLIHlXc')
-     .then(objResponse => objResponse.json())   
-     .then(objData => {
-            console.log(objData);
-            let location = objData.results[0].address_components[3].long_name;
-            let state = objData.results[0].address_components[5].short_name;
-            let country = objData.results[0].address_components[6].short_name;
+            let latitude=(position.coords.latitude)
+            console.log(latitude);
+            let longitude=(position.coords.longitude)
+            console.log(longitude); 
+
+            fetch('https://maps.googleapis.com/maps/api/geocode/json?latlng='+latitude+','+longitude+'&key=AIzaSyAOPDJc__khO06ukuphJjuIi1DGpLIHlXc')
+            .then(objResponse => objResponse.json())   
+             .then(objData => {
+                console.log(objData.results);
+           
+            let location = objData.results[0].address_components[2].long_name;
+            let state = objData.results[0].address_components[4].short_name;
+            let country = objData.results[0].address_components[5].short_name;
             document.querySelector('#txtLoc').innerHTML = location +", "+ state+", "+ country;
             
-        })
-       
+            })
 
-         
-        
-    fetch('https://api.open-meteo.com/v1/forecast?latitude='+latitude+'&longitude='+longitude+'&current=temperature_2m,relative_humidity_2m,weather_code&hourly=temperature_2m&temperature_unit=fahrenheit')
+            fetch('https://api.open-meteo.com/v1/forecast?latitude='+latitude+'&longitude='+longitude+'&current=temperature_2m,relative_humidity_2m,weather_code&hourly=temperature_2m&temperature_unit=fahrenheit')
      .then(objResponse => objResponse.json())
      .then(objData => {
-            console.log(objData);
+            
             console.log(objData.hourly.temperature_2m[0]);
             document.querySelector('#txttemp').innerHTML = objData.current.temperature_2m + objData.current_units.temperature_2m
             document.querySelector('#txthum').innerHTML = objData.current.relative_humidity_2m + objData.current_units.relative_humidity_2m;
@@ -232,7 +229,16 @@
                 document.querySelector('#txtCon').innerHTML = "Unknown weather status";
             }
 
-    })
+            })
+        })
+        
+        
+       
+       
+
+         
+        
+    
     // $.getJSON('https://swollenhippo.com/dogs.php?APIKey=75Barking212!',function(objData){
             
 
