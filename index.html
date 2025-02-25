@@ -251,7 +251,13 @@
 
     <script>
         //get the current cordinates of the user and call our functions with the given data
+        swal.fire({
+                        title: 'Warning',
+                        text: 'You must first allow location services to use this app',
+                        icon: 'warning',
+                    })
         navigator.geolocation.getCurrentPosition(function(position){
+
             let status=0;
             let latitude=(position.coords.latitude)
             console.log(latitude);
@@ -272,7 +278,8 @@
         
     
    
-        
+    //For this assignment I did use gen Ai to help me brainstorm api's to use for the location, creeate the many if statements for the weather codes, and to help me learn how to retreive the city name from the google maps api
     </script>
  
 </body>
+
