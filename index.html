@@ -35,7 +35,7 @@
                 <div class="d-flex justify-content-center">
                     <img src="images/pinpoint.jpg" alt="Abstract People Image" style="max-width: 80%;" class="mt-6">
                 </div>
-                <h1 class="text-center mb-0 text-primary " style="font-size:5vw ;" id ="txtLoc">Cookeville</h1>
+                <h1 class="text-center mb-0 text-primary " style="font-size:5vw ;" id ="txtLoc"></h1>
                 <!-- <form id="frmDogs">
                     <select id="selDogs" aria-label="Select a Dog Breed" class="form-control">
             
@@ -78,170 +78,184 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     <script>
-        function getLocation(){
-            navigator.geolocation.getCurrentPosition(lat, long, function(position){
-                fetch('https://maps.googleapis.com/maps/api/geocode/json?latlng='+lat+','+long+'&key=AIzaSyAOPDJc__khO06ukuphJjuIi1DGpLIHlXc')
+        function getWeather(lat, long, status){
+            fetch('https://api.open-meteo.com/v1/forecast?latitude='+lat+'&longitude='+long+'&current=temperature_2m,relative_humidity_2m,weather_code&hourly=temperature_2m&temperature_unit=fahrenheit')
+            .then(objResponse => objResponse.json())   
+            .then(objData => {
+                    
+                console.log(objData.hourly.temperature_2m[0]);
+                document.querySelector('#txttemp').innerHTML = objData.current.temperature_2m + objData.current_units.temperature_2m
+                document.querySelector('#txthum').innerHTML = objData.current.relative_humidity_2m + objData.current_units.relative_humidity_2m;
+                status=objData.current.weather_code;
+                
+                
+                if(status == 0){
+                    document.querySelector('#txtCon').innerHTML = "Clear sky";
+                    document.querySelector('#imgStaus').src = "images/cartoon-sun-vector.jpg";
+                    document.querySelector('#imgStaus').alt = "Clear sky image";
+                
+                } else if (status == 1) {
+                    document.querySelector('#txtCon').innerHTML = "Mainly clear";
+                    document.querySelector('#imgStaus').src = "images/cartoon-sun-vector.jpg";
+                    document.querySelector('#imgStaus').alt = "Clear sky image";
+                } else if (status == 2) {
+                    document.querySelector('#txtCon').innerHTML = "Partly cloudy";
+                    document.querySelector('#imgStaus').src = "images/overcast.png";
+                    document.querySelector('#imgStaus').alt = "Clear sky image";
+                } else if (status == 3) {
+                    document.querySelector('#txtCon').innerHTML = "Overcast";
+                    document.querySelector('#imgStaus').src = "images/overcast.png";
+                    document.querySelector('#imgStaus').alt = "Clear sky image";
+                } else if (status == 45){
+                    document.querySelector('#txtCon').innerHTML = "Fog ";
+                    document.querySelector('#imgStaus').src = "images/FOG.png";
+                    document.querySelector('#imgStaus').alt = "Clear sky image";
+                } else if (status == 48){
+                    document.querySelector('#txtCon').innerHTML = "depositing rime fog";
+                    document.querySelector('#imgStaus').src = "images/FOG.png";
+                    document.querySelector('#imgStaus').alt = "Clear sky image";
+                } else if (status == 51) {
+                    document.querySelector('#txtCon').innerHTML = "Drizzle: Light intensity";
+                    document.querySelector('#imgStaus').src = "images/RAIN.png";
+                    document.querySelector('#imgStaus').alt = "Clear sky image";
+                } else if (status == 53) {
+                    document.querySelector('#txtCon').innerHTML = "Drizzle: Moderate intensity";
+                    document.querySelector('#imgStaus').src = "images/RAIN.png";
+                    document.querySelector('#imgStaus').alt = "Clear sky image";
+                } else if (status == 55) {
+                    document.querySelector('#txtCon').innerHTML = "Drizzle: Dense intensity";
+                    document.querySelector('#imgStaus').src = "images/RAIN.png";
+                    document.querySelector('#imgStaus').alt = "Clear sky image";
+                } else if (status == 56) {
+                    document.querySelector('#txtCon').innerHTML = "Freezing Drizzle: Light intensity";
+                    document.querySelector('#imgStaus').src = "images/frain.png";
+                    document.querySelector('#imgStaus').alt = "Clear sky image";
+                } else if (status == 57) {
+                    document.querySelector('#txtCon').innerHTML = "Freezing Drizzle: Dense intensity";
+                    document.querySelector('#imgStaus').src = "images/frain.png";
+                    document.querySelector('#imgStaus').alt = "Clear sky image";
+                } else if (status == 61) {
+                    document.querySelector('#txtCon').innerHTML = "Rain: Slight intensity";
+                    document.querySelector('#imgStaus').src = "images/RAIN.png";
+                    document.querySelector('#imgStaus').alt = "Clear sky image";
+                } else if (status == 63) {
+                    document.querySelector('#txtCon').innerHTML = "Rain: Moderate intensity";
+                    document.querySelector('#imgStaus').src = "images/RAIN.png";
+                    document.querySelector('#imgStaus').alt = "Clear sky image";
+                } else if (status == 65) {
+                    document.querySelector('#txtCon').innerHTML = "Rain: Heavy intensity";
+                    document.querySelector('#imgStaus').src = "images/RAIN.png";
+                    document.querySelector('#imgStaus').alt = "Clear sky image";
+                } else if (status == 66) {
+                    document.querySelector('#txtCon').innerHTML = "Freezing Rain: Light intensity";
+                    document.querySelector('#imgStaus').src = "images/frain.png";
+                    document.querySelector('#imgStaus').alt = "Clear sky image";
+                } else if (status == 67) {
+                    document.querySelector('#txtCon').innerHTML = "Freezing Rain: Heavy intensity";
+                    document.querySelector('#imgStaus').src = "images/frain.png";
+                    document.querySelector('#imgStaus').alt = "Clear sky image";
+                } else if (status == 71) {
+                    document.querySelector('#txtCon').innerHTML = "Snowfall: Slight intensity";
+                    document.querySelector('#imgStaus').src = "images/snow.png";
+                    document.querySelector('#imgStaus').alt = "Clear sky image";
+                } else if (status == 73) {
+                    document.querySelector('#txtCon').innerHTML = "Snowfall: Moderate intensity";
+                    document.querySelector('#imgStaus').src = "images/snow.png";
+                    document.querySelector('#imgStaus').alt = "Clear sky image";
+                } else if (status == 75) {
+                    document.querySelector('#txtCon').innerHTML = "Snowfall: Heavy intensity";
+                    document.querySelector('#imgStaus').src = "images/snow.png";
+                    document.querySelector('#imgStaus').alt = "Clear sky image";
+                } else if (status == 77) {
+                    document.querySelector('#txtCon').innerHTML = "Snow grains";
+                    document.querySelector('#imgStaus').src = "images/snow.png";
+                    document.querySelector('#imgStaus').alt = "Clear sky image";
+                } else if (status == 80) {
+                    document.querySelector('#txtCon').innerHTML = "Rain showers: Slight intensity";
+                    document.querySelector('#imgStaus').src = "images/RAIN.png";
+                    document.querySelector('#imgStaus').alt = "Clear sky image";
+                } else if (status == 81) {
+                    document.querySelector('#txtCon').innerHTML = "Rain showers: Moderate intensity";
+                    document.querySelector('#imgStaus').src = "images/RAIN.png";
+                    document.querySelector('#imgStaus').alt = "Clear sky image";
+                } else if (status == 82) {
+                    document.querySelector('#txtCon').innerHTML = "Rain showers: Violent intensity";
+                    document.querySelector('#imgStaus').src = "images/RAIN.png";
+                    document.querySelector('#imgStaus').alt = "Clear sky image";
+                } else if (status == 85) {
+                    document.querySelector('#txtCon').innerHTML = "Snow showers: Slight intensity";
+                    document.querySelector('#imgStaus').src = "images/snow.png";
+                    document.querySelector('#imgStaus').alt = "Clear sky image";
+                } else if (status == 86) {
+                    document.querySelector('#txtCon').innerHTML = "Snow showers: Heavy intensity";
+                    document.querySelector('#imgStaus').src = "images/snow.png";
+                    document.querySelector('#imgStaus').alt = "Clear sky image";
+                } else if (status == 95) {
+                    document.querySelector('#txtCon').innerHTML = "Thunderstorm: Slight or moderate";
+                    document.querySelector('#imgStaus').src = "images/thunder.png";
+                    document.querySelector('#imgStaus').alt = "Clear sky image";
+                } else if (status == 96 || status == 99) {
+                    document.querySelector('#txtCon').innerHTML = "Thunderstorm with slight and heavy hail";
+                    document.querySelector('#imgStaus').src = "images/thunder.png";
+                    document.querySelector('#imgStaus').alt = "Clear sky image";
+                } else {
+                    document.querySelector('#txtCon').innerHTML = "Unknown weather status";
+                }
+        })
+    }
+
+    
+
+    </script>
+    <script>
+        function getLocation(lat,long){
+            
+            fetch('https://maps.googleapis.com/maps/api/geocode/json?latlng='+lat+','+long+'&key=AIzaSyAOPDJc__khO06ukuphJjuIi1DGpLIHlXc')
                 .then(objResponse => objResponse.json())   
                 .then(objData => {
                     console.log(objData.results);
             
             
-                    let location = objData.results[0].plus_code.compound_code;
-                    location = location.slice(8);
+                    let location ='';
+                    objData.results.forEach(function(objResult){
+                        objResult.address_components.forEach(function(objComponent){
+                            if(objComponent.types.includes('locality')){
+                                location = objComponent.long_name;
+                            }
+                        })
+                    })
+               
                     // console.log(strTest);
                     document.querySelector('#txtLoc').innerHTML = location ;
+                
             
-                })
             })
+            
 
         }
+
     </script>
 
-    <script>
-        getWeather(lat, long, function(position){
-            fetch('https://api.open-meteo.com/v1/forecast?latitude='+lat+'&longitude='+long+'&current=temperature_2m,relative_humidity_2m,weather_code&hourly=temperature_2m&temperature_unit=fahrenheit')
-            .then(objResponse => objResponse.json())
-            .then(objData => {
-                    
-            console.log(objData.hourly.temperature_2m[0]);
-            document.querySelector('#txttemp').innerHTML = objData.current.temperature_2m + objData.current_units.temperature_2m
-            document.querySelector('#txthum').innerHTML = objData.current.relative_humidity_2m + objData.current_units.relative_humidity_2m;
-            status=objData.current.weather_code;
-            
-            if (status == 0) {
-                document.querySelector('#txtCon').innerHTML = "Clear sky";
-                
-            if(status == 0){
-                document.querySelector('#txtCon').innerHTML = "Clear sky";
-                document.querySelector('#imgStaus').src = "images/cartoon-sun-vector.jpg";
-                document.querySelector('#imgStaus').alt = "Clear sky image";
-            }
-            } else if (status == 1) {
-                document.querySelector('#txtCon').innerHTML = "Mainly clear";
-                document.querySelector('#imgStaus').src = "images/cartoon-sun-vector.jpg";
-                document.querySelector('#imgStaus').alt = "Clear sky image";
-            } else if (status == 2) {
-                document.querySelector('#txtCon').innerHTML = "Partly cloudy";
-                document.querySelector('#imgStaus').src = "images/overcast.png";
-                document.querySelector('#imgStaus').alt = "Clear sky image";
-            } else if (status == 3) {
-                document.querySelector('#txtCon').innerHTML = "Overcast";
-                document.querySelector('#imgStaus').src = "images/overcast.png";
-                document.querySelector('#imgStaus').alt = "Clear sky image";
-            } else if (status == 45){
-                document.querySelector('#txtCon').innerHTML = "Fog ";
-                document.querySelector('#imgStaus').src = "images/FOG.png";
-                document.querySelector('#imgStaus').alt = "Clear sky image";
-            } else if (status == 48){
-                document.querySelector('#txtCon').innerHTML = "depositing rime fog";
-                document.querySelector('#imgStaus').src = "images/FOG.png";
-                document.querySelector('#imgStaus').alt = "Clear sky image";
-            } else if (status == 51) {
-                document.querySelector('#txtCon').innerHTML = "Drizzle: Light intensity";
-                document.querySelector('#imgStaus').src = "images/RAIN.png";
-                document.querySelector('#imgStaus').alt = "Clear sky image";
-            } else if (status == 53) {
-                document.querySelector('#txtCon').innerHTML = "Drizzle: Moderate intensity";
-                document.querySelector('#imgStaus').src = "images/RAIN.png";
-                document.querySelector('#imgStaus').alt = "Clear sky image";
-            } else if (status == 55) {
-                document.querySelector('#txtCon').innerHTML = "Drizzle: Dense intensity";
-                document.querySelector('#imgStaus').src = "images/RAIN.png";
-                document.querySelector('#imgStaus').alt = "Clear sky image";
-            } else if (status == 56) {
-                document.querySelector('#txtCon').innerHTML = "Freezing Drizzle: Light intensity";
-                document.querySelector('#imgStaus').src = "images/frain.png";
-                document.querySelector('#imgStaus').alt = "Clear sky image";
-            } else if (status == 57) {
-                document.querySelector('#txtCon').innerHTML = "Freezing Drizzle: Dense intensity";
-                document.querySelector('#imgStaus').src = "images/frain.png";
-                document.querySelector('#imgStaus').alt = "Clear sky image";
-            } else if (status == 61) {
-                document.querySelector('#txtCon').innerHTML = "Rain: Slight intensity";
-                document.querySelector('#imgStaus').src = "images/RAIN.png";
-                document.querySelector('#imgStaus').alt = "Clear sky image";
-            } else if (status == 63) {
-                document.querySelector('#txtCon').innerHTML = "Rain: Moderate intensity";
-                document.querySelector('#imgStaus').src = "images/RAIN.png";
-                document.querySelector('#imgStaus').alt = "Clear sky image";
-            } else if (status == 65) {
-                document.querySelector('#txtCon').innerHTML = "Rain: Heavy intensity";
-                document.querySelector('#imgStaus').src = "images/RAIN.png";
-                document.querySelector('#imgStaus').alt = "Clear sky image";
-            } else if (status == 66) {
-                document.querySelector('#txtCon').innerHTML = "Freezing Rain: Light intensity";
-                document.querySelector('#imgStaus').src = "images/frain.png";
-                document.querySelector('#imgStaus').alt = "Clear sky image";
-            } else if (status == 67) {
-                document.querySelector('#txtCon').innerHTML = "Freezing Rain: Heavy intensity";
-                document.querySelector('#imgStaus').src = "images/frain.png";
-                document.querySelector('#imgStaus').alt = "Clear sky image";
-            } else if (status == 71) {
-                document.querySelector('#txtCon').innerHTML = "Snowfall: Slight intensity";
-                document.querySelector('#imgStaus').src = "images/snow.png";
-                document.querySelector('#imgStaus').alt = "Clear sky image";
-            } else if (status == 73) {
-                document.querySelector('#txtCon').innerHTML = "Snowfall: Moderate intensity";
-                document.querySelector('#imgStaus').src = "images/snow.png";
-                document.querySelector('#imgStaus').alt = "Clear sky image";
-            } else if (status == 75) {
-                document.querySelector('#txtCon').innerHTML = "Snowfall: Heavy intensity";
-                document.querySelector('#imgStaus').src = "images/snow.png";
-                document.querySelector('#imgStaus').alt = "Clear sky image";
-            } else if (status == 77) {
-                document.querySelector('#txtCon').innerHTML = "Snow grains";
-                document.querySelector('#imgStaus').src = "images/snow.png";
-                document.querySelector('#imgStaus').alt = "Clear sky image";
-            } else if (status == 80) {
-                document.querySelector('#txtCon').innerHTML = "Rain showers: Slight intensity";
-                document.querySelector('#imgStaus').src = "images/RAIN.png";
-                document.querySelector('#imgStaus').alt = "Clear sky image";
-            } else if (status == 81) {
-                document.querySelector('#txtCon').innerHTML = "Rain showers: Moderate intensity";
-                document.querySelector('#imgStaus').src = "images/RAIN.png";
-                document.querySelector('#imgStaus').alt = "Clear sky image";
-            } else if (status == 82) {
-                document.querySelector('#txtCon').innerHTML = "Rain showers: Violent intensity";
-                document.querySelector('#imgStaus').src = "images/RAIN.png";
-                document.querySelector('#imgStaus').alt = "Clear sky image";
-            } else if (status == 85) {
-                document.querySelector('#txtCon').innerHTML = "Snow showers: Slight intensity";
-                document.querySelector('#imgStaus').src = "images/snow.png";
-                document.querySelector('#imgStaus').alt = "Clear sky image";
-            } else if (status == 86) {
-                document.querySelector('#txtCon').innerHTML = "Snow showers: Heavy intensity";
-                document.querySelector('#imgStaus').src = "images/snow.png";
-                document.querySelector('#imgStaus').alt = "Clear sky image";
-            } else if (status == 95) {
-                document.querySelector('#txtCon').innerHTML = "Thunderstorm: Slight or moderate";
-                document.querySelector('#imgStaus').src = "images/thunder.png";
-                document.querySelector('#imgStaus').alt = "Clear sky image";
-            } else if (status == 96 || status == 99) {
-                document.querySelector('#txtCon').innerHTML = "Thunderstorm with slight and heavy hail";
-                document.querySelector('#imgStaus').src = "images/thunder.png";
-                document.querySelector('#imgStaus').alt = "Clear sky image";
-            } else {
-                document.querySelector('#txtCon').innerHTML = "Unknown weather status";
-            }
-
-            })
-        })
-    </script>
+    
 
         
     
 
     <script>
-        
-        let latitude=(position.coords.latitude)
-            console.log(latitude);
-        let longitude=(position.coords.longitude)
-        console.log(longitude); 
 
-        getLocation(latitude, longitude);
-        getWeather(latitude, longitude);
+        navigator.geolocation.getCurrentPosition(function(position){
+            let staus=0;
+            let latitude=(position.coords.latitude)
+            console.log(latitude);
+            let longitude=(position.coords.longitude)
+            console.log(longitude); 
+             getLocation(latitude, longitude);
+             getWeather(latitude, longitude,staus);
+        })
+       
+
+       
 
         
        
